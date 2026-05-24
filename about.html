@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Showcase Presentation View</title>
+    <style>
+        :root { --gold: #c5a059; --dark: #1a1a1a; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #fffcf9; color: #333; margin: 0; line-height: 1.7; }
+        .main-wrapper { max-width: 1100px; margin: 50px auto; padding: 20px; }
+        .presentation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 50px; margin-top: 35px; opacity: 0; transition: opacity 0.5s ease-in; }
+        .text-block h1 { font-size: 2.8rem; color: var(--dark); margin: 0 0 10px 0; }
+        .brand-meta { font-size: 0.8rem; color: #888; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
+        .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .data-card { background: #faf5ed; padding: 22px; border-radius: 6px; border-top: 3px solid var(--gold); }
+        .data-card h3 { margin: 0 0 10px 0; color: var(--dark); font-size: 1.1rem; }
+        .showcase-frame img { width: 100%; max-height: 480px; object-fit: cover; border-radius: 12px; box-shadow: 0 6px 25px rgba(0,0,0,0.07); }
+        
+        /* Loading States UI/UX UI Element */
+        #async-spinner { font-size: 1.3rem; text-align: center; color: var(--gold); margin-top: 100px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div id="async-spinner">Asynchronously Resolving Layout Matrices via Core Backend Node...</div>
+
+    <main id="view-portal" class="presentation-grid">
+        <div class="text-block">
+            <h1 id="out-company"></h1>
+            <div class="brand-meta">Synchronized Ledger Node Ref: <span id="out-time"></span></div>
+            <h2>Corporate Ideology & Heritage</h2>
+            <p id="out-desc" style="color: #555; font-size: 1.05rem;"></p>
+            
+            <div class="card-row">
+                <div class="data-card">
+                    <h3>Mission Statement</h3>
+                    <p id="out-mission" style="font-size: 0.9rem; color:#444; margin:0;"></p>
+                </div>
+                <div class="data-card">
+                    <h3>Future Outlook Vision</h3>
+                    <p id="out-vision" style="font-size: 0.9rem; color:#444; margin:0;"></p>
+                </div>
+            </div>
+        </div>
+        <div class="showcase-frame">
+            <img id="out-img" src="" alt="Dynamic Brand Asset Placement Element">
+        </div>
+    </main>
+</div>
+
+<script>
+    async function bindActiveCMSLayer() {
+        const portal = document.getElementById('view-portal');
+        const spinner = document.getElementById('async-spinner');
+
+        try {
+            // Native GET invocation bypasses aggressive local browser caching mechanisms natively
+            const fetchResult = await fetch('api.php?nocache=' + new Date().getTime());
+            if(!fetchResult.ok) throw new Error("Endpoint returned invalid code values.");
+            
+            const payloadStructure = await fetchResult.json();
+
+            // Direct Variable Mapping to Safe Target DOM Containers
+            document.getElementById('out-company').innerText = payloadStructure.company_name;
+            document.getElementById('out-desc').innerText    = payloadStructure.description;
+            document.getElementById('out-mission').innerText = payloadStructure.mission;
+            document.getElementById('out-vision').innerText  = payloadStructure.vision;
+            document.getElementById('out-time').innerText    = payloadStructure.updated_at;
+            
+            const coreImg = document.getElementById('out-img');
+            coreImg.src = payloadStructure.image_url;
+
+            // Smooth transition mapping pass
+            spinner.style.display = 'none';
+            portal.style.opacity = '1';
+
+        } catch (fault) {
+            console.error("Layout structural fault detected:", fault);
+            spinner.innerText = "Error linking layout structures to relational API backend logic.";
+            spinner.style.color = "#c5221f";
+        }
+    }
+
+    window.addEventListener('DOMContentLoaded', bindActiveCMSLayer);
+</script>
+</body>
+</html>
